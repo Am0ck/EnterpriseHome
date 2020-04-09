@@ -47,6 +47,7 @@ namespace HomeEnterprise.Models
                 var userStore = new UserStore<ApplicationUser>(context);
                 var userManager = new UserManager<ApplicationUser>(userStore);
                 var userToInsert = new ApplicationUser { UserName = "admin@admin.com", Email = "admin@admin.com" };
+                //adding admin
                 userManager.Create(userToInsert, "@dmin1234");
                 userManager.AddToRole(userToInsert.Id, "admin");
             }
