@@ -42,7 +42,6 @@ namespace HomeEnterprise.Models
             //roles.Add(new IdentityRole() { Name = "Anon" });
             context.Roles.Add(new IdentityRole() { Id = "1", Name = "Admin" });
             context.Roles.Add(new IdentityRole() { Id = "2", Name = "Registered User" });
-            //y
             if (!(context.Users.Any(u => u.UserName == "admin@admin.com")))
             {
                 var userStore = new UserStore<ApplicationUser>(context);
