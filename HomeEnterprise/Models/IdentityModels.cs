@@ -40,6 +40,7 @@ namespace HomeEnterprise.Models
             //roles.Add(new IdentityRole() { Name = "Admin" });
             //roles.Add(new IdentityRole() { Name = "Registered User" });
             //roles.Add(new IdentityRole() { Name = "Anon" });
+            //k
             context.Roles.Add(new IdentityRole() { Id = "1", Name = "Admin" });
             context.Roles.Add(new IdentityRole() { Id = "2", Name = "Registered User" });
             if (!(context.Users.Any(u => u.UserName == "admin@admin.com")))
