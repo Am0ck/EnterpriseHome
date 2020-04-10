@@ -58,11 +58,11 @@ namespace HomeEnterprise
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "8740831539-1n8e1cl356pa0uouokc0v8vegd1oa9bf.apps.googleusercontent.com",
+                ClientSecret = "dCaty7oCRbD45Htsc90mU6HT"
+            });
         }
     }
 }
