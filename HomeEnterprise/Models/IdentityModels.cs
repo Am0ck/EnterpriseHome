@@ -36,6 +36,7 @@ namespace HomeEnterprise.Models
         protected override void Seed(ApplicationDbContext context)
         {
             base.Seed(context);
+            //list
             //List<IdentityRole> roles = new List<IdentityRole>();
             //roles.Add(new IdentityRole() { Name = "Admin" });
             //roles.Add(new IdentityRole() { Name = "Registered User" });
