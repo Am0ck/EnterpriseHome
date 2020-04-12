@@ -36,13 +36,17 @@ namespace HomeEnterprise.Models
         protected override void Seed(ApplicationDbContext context)
         {
             base.Seed(context);
-            //list
-            //List<IdentityRole> roles = new List<IdentityRole>();
-            //roles.Add(new IdentityRole() { Name = "Admin" });
-            //roles.Add(new IdentityRole() { Name = "Registered User" });
-            //roles.Add(new IdentityRole() { Name = "Anon" });
+            //Seed Qualities
+            List<Quality> qualities = new List<Quality>();
+            qualities.Add(new Quality() { Id = 1, QualityName = "Excellent" });
+            qualities.Add(new Quality() { Id = 2, QualityName = "Good" });
+            qualities.Add(new Quality() { Id = 3, QualityName = "Poor" });
+            qualities.Add(new Quality() { Id = 4, QualityName = "Bad" });
+            context.Qualities.AddRange(qualities);
+            //Seed Roles
             context.Roles.Add(new IdentityRole() { Id = "1", Name = "Admin" });
             context.Roles.Add(new IdentityRole() { Id = "2", Name = "Registered User" });
+            //seed Admin User
             if (!(context.Users.Any(u => u.UserName == "admin@admin.com")))
             {
                 var userStore = new UserStore<ApplicationUser>(context);
@@ -70,5 +74,9 @@ namespace HomeEnterprise.Models
         public System.Data.Entity.DbSet<HomeEnterprise.Models.Category> Categories { get; set; }
 
         public System.Data.Entity.DbSet<HomeEnterprise.Models.ItemType> ItemTypes { get; set; }
+
+        public System.Data.Entity.DbSet<HomeEnterprise.Models.Item> Items { get; set; }
+
+        public System.Data.Entity.DbSet<HomeEnterprise.Models.Quality> Qualities { get; set; }
     }
 }
