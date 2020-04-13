@@ -21,9 +21,63 @@ namespace HomeEnterprise.Controllers
             var items = db.Items.Include(i => i.ItemType).Include(i => i.Owner).Include(i => i.Quality);
             return View(items.ToList());
         }
+        // GET: ItemsList
+        public ActionResult List()
+        {
+            /*
+            //ApplicationUser u = new ApplicationUser();
+            //u.UserName = "";
+            //ViewBag.Owners = db.Users.Where(u => u.Items.Count > 0);
+            //ViewBag.Owners = new SelectList(db.Users, "UserName");
+            var users = db.Users.ToList();
+            ViewBag.Owners = users
+            var items = db.Items.Include(i => i.ItemType).Include(i => i.Owner).Include(i => i.Quality);
+            List<Item> its = new List<Item>();
+            its = items.ToList();
+            its.Reverse();
+            return View(its);
+            */
+            ViewBag.OwnerId = new SelectList(db.Users, "Id", "UserName");
+            var items = db.Items.Include(i => i.ItemType).Include(i => i.Owner).Include(i => i.Quality);
+            List<Item> its = new List<Item>();
+            its = items.ToList();
+            its.Reverse();
 
-        // GET: Items/Details/5
-        public ActionResult Details(long? id)
+            return View(its);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult List(string ownerId)
+        {
+            List<Item> its = new List<Item>();
+            ViewBag.OwnerId = new SelectList(db.Users, "Id", "UserName");
+
+            var sellerId = (from c in db.Items
+                            where c.OwnerId == ownerId
+                            select c.OwnerId).FirstOrDefault();
+            //if owner has items listed
+            if (sellerId != null)
+            {
+                var items = db.Items.Include(i => i.ItemType).Include(i => i.Owner).Include(i => i.Quality).Where(x => x.OwnerId == ownerId);
+                its = items.ToList();
+                //List<Item> its = new List<Item>();
+
+            }
+            else
+            {
+                var items = db.Items.Include(i => i.ItemType).Include(i => i.Owner).Include(i => i.Quality);
+                its = items.ToList();
+                //List<Item> its = new List<Item>();
+            }            
+            its.Reverse();
+            return View(its);
+
+            //var items = db.Items.Include(i => i.ItemType).Include(i => i.Owner).Include(i => i.Quality).OrderByDescending(x => x.Id);
+
+        }
+
+            // GET: Items/Details/5
+            public ActionResult Details(long? id)
         {
             if (id == null)
             {
@@ -83,14 +137,28 @@ namespace HomeEnterprise.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Item item = db.Items.Find(id);
+            
             if (item == null)
             {
                 return HttpNotFound();
             }
+            if (item.OwnerId == User.Identity.GetUserId())
+            {
+                ViewBag.ItemTypeId = new SelectList(db.ItemTypes, "Id", "TypeName", item.ItemTypeId);
+                //ViewBag.OwnerId = new SelectList(db.Users, "Id", "Email", item.OwnerId);
+                ViewBag.QualityId = new SelectList(db.Qualities, "Id", "QualityName", item.QualityId);
+                return View(item);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+            /*
             ViewBag.ItemTypeId = new SelectList(db.ItemTypes, "Id", "TypeName", item.ItemTypeId);
             //ViewBag.OwnerId = new SelectList(db.Users, "Id", "Email", item.OwnerId);
             ViewBag.QualityId = new SelectList(db.Qualities, "Id", "QualityName", item.QualityId);
             return View(item);
+            */
         }
 
         // POST: Items/Edit/5
@@ -100,16 +168,20 @@ namespace HomeEnterprise.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Quantity,Price,OwnerId,QualityId,ItemTypeId")] Item item)
         {
-            if (ModelState.IsValid)
+            if (item.OwnerId == User.Identity.GetUserId())
             {
-                db.Entry(item).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(item).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.ItemTypeId = new SelectList(db.ItemTypes, "Id", "TypeName", item.ItemTypeId);
+                //ViewBag.OwnerId = new SelectList(db.Users, "Id", "Email", item.OwnerId);
+                ViewBag.QualityId = new SelectList(db.Qualities, "Id", "QualityName", item.QualityId);
+                return View(item);
             }
-            ViewBag.ItemTypeId = new SelectList(db.ItemTypes, "Id", "TypeName", item.ItemTypeId);
-            //ViewBag.OwnerId = new SelectList(db.Users, "Id", "Email", item.OwnerId);
-            ViewBag.QualityId = new SelectList(db.Qualities, "Id", "QualityName", item.QualityId);
-            return View(item);
+            return RedirectToAction("Index");
         }
 
         // GET: Items/Delete/5
@@ -133,8 +205,11 @@ namespace HomeEnterprise.Controllers
         public ActionResult DeleteConfirmed(long id)
         {
             Item item = db.Items.Find(id);
-            db.Items.Remove(item);
-            db.SaveChanges();
+            if (item.OwnerId == User.Identity.GetUserId())
+            {
+                db.Items.Remove(item);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

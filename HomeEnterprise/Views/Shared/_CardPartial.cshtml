@@ -1,0 +1,15 @@
+﻿@model HomeEnterprise.Models.Item
+
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="..." alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title">@Html.DisplayFor(modelItem => modelItem.ItemType.TypeName)</h5>
+        <h5 class="card-title">@Html.DisplayFor(modelItem => modelItem.Quantity)</h5>
+        <h5 class="card-title">@Html.DisplayFor(modelItem => modelItem.Price)</h5>
+        <h5 class="card-title">@Html.DisplayFor(modelItem => modelItem.Owner.UserName)</h5>
+        <h5 class="card-title">@Html.DisplayFor(modelItem => modelItem.Quality.QualityName)</h5>
+
+
+    </div>
+</div>
+
