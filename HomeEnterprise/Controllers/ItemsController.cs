@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using HomeEnterprise.Models;
 using Microsoft.AspNet.Identity;
+using PagedList;
 
 namespace HomeEnterprise.Controllers
 {
@@ -22,7 +23,7 @@ namespace HomeEnterprise.Controllers
             return View(items.ToList());
         }
         // GET: ItemsList
-        public ActionResult List()
+        public ActionResult List(int? page)
         {
             /*
             //ApplicationUser u = new ApplicationUser();
@@ -43,11 +44,11 @@ namespace HomeEnterprise.Controllers
             its = items.ToList();
             its.Reverse();
 
-            return View(its);
+            return View(its.ToPagedList(page ?? 1, 6));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult List(string ownerId)
+        public ActionResult List(string ownerId, int? page)
         {
             List<Item> its = new List<Item>();
             ViewBag.OwnerId = new SelectList(db.Users, "Id", "UserName");
@@ -70,7 +71,7 @@ namespace HomeEnterprise.Controllers
                 //List<Item> its = new List<Item>();
             }            
             its.Reverse();
-            return View(its);
+            return View(its.ToPagedList(page ?? 1, 6));
 
             //var items = db.Items.Include(i => i.ItemType).Include(i => i.Owner).Include(i => i.Quality).OrderByDescending(x => x.Id);
 
