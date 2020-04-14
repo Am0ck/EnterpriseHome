@@ -48,8 +48,15 @@ namespace HomeEnterprise.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TypeName,Image,CategoryId")] ItemType itemType)
+        //public ActionResult Create(String TypeName, long CategoryId, HttpPostedFileBase file)
+        public ActionResult Create([Bind(Include = "Id,TypeName,CategoryId")] ItemType itemType, HttpPostedFileBase file)
         {
+            //file = itemType.Image;
+            //GoogleDriveFilesRepository.FileUpload(file);
+            //ItemType itemType;
+            //[Bind("Id")] itemType
+            string s = GoogleDriveFilesRepository.FileUpload(file);
+            itemType.Image = s;
             if (ModelState.IsValid)
             {
                 db.ItemTypes.Add(itemType);

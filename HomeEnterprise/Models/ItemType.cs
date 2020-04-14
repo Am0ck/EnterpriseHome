@@ -18,7 +18,7 @@ namespace HomeEnterprise.Models
         [MaxLength(50, ErrorMessage = "Type name cannot exceed 50 characters")]
         public string TypeName { get; set; }
 
-        [Required]
+        //[Required]
         public string Image { get; set; }
 
         [Required]
