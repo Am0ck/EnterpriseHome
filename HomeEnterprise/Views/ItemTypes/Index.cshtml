@@ -32,7 +32,9 @@
             @Html.DisplayFor(modelItem => item.TypeName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Image)
+            
+            <img src="https://drive.google.com/thumbnail?id=@item.Image" />
+
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
