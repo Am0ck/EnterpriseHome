@@ -55,7 +55,17 @@ namespace HomeEnterprise.Controllers
             //GoogleDriveFilesRepository.FileUpload(file);
             //ItemType itemType;
             //[Bind("Id")] itemType
+            
+            var supportedTypes = new[] { "jpg", "jpeg" };
+            var dsf = System.IO.Path.GetExtension(file.FileName).Substring(1).ToLower();
+            if (!supportedTypes.Contains(dsf))
+            {
+                ViewBag.Error = "<div class='alert alert-danger' role='alert'>" + "File is not allowed. Upload only png, jpg or jpeg files" + "</div>";
+                ViewBag.CategoryId = new SelectList(db.Categories, "Id", "CategoryName", itemType.CategoryId);
+                return View(itemType);
+            }
             string s = GoogleDriveFilesRepository.FileUpload(file);
+            ViewBag.Error = "";
             itemType.Image = s;
             if (ModelState.IsValid)
             {

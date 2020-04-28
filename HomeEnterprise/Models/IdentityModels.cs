@@ -53,7 +53,7 @@ namespace HomeEnterprise.Models
                 userManager.AddToRole(userToInsert.Id, "admin");
             }
             
-
+            //Seed Registered Users
             for (int i = 1; i < 6; i++)
             {
                 string username = "user" + i;
@@ -63,8 +63,6 @@ namespace HomeEnterprise.Models
                 userManager.Create(userToInsert, username+"A@");
                 userManager.AddToRole(userToInsert.Id, "Registered User");
                 context.SaveChanges();
-                //userManager.AddToRole(userToInsert.Id, "admin");
-                //context.SaveChanges();
             }
 
             //Seed Categories
@@ -76,18 +74,13 @@ namespace HomeEnterprise.Models
             categories.Add(new Category() { Id = 5, CategoryName = "Accessories" });
             context.Categories.AddRange(categories);
             context.SaveChanges();
-            //int count = 0;
             foreach(Category c in categories)
             {
                 for(int i = 1; i <= 20; i++)
                 {
-                    //count++;
                     context.ItemTypes.Add(new ItemType() { TypeName = "type" + i, Image = "13c-BpIZvgWH7yQB3CbdP0_q5pHzTalIC", CategoryId = c.Id });
-                    //context.Items.Add(new Item() { ItemTypeId = i, OwnerId })
                 }
             }
-            //var items = db.Items.Include(i => i.ItemType).Include(i => i.Owner).Include(i => i.Quality);
-            //return View(items.ToList());
             //Seed Qualities
             List<Quality> qualities = new List<Quality>();
             qualities.Add(new Quality() { Id = 1, QualityName = "Excellent" });
@@ -112,7 +105,6 @@ namespace HomeEnterprise.Models
                 {
                     qid = 1;
                 }
-                //context.Items.Add(new Item() { ItemTypeId = i,  OwnerId = uids[rnd.Next(0, 6)], Price = i, QualityId = Convert.ToInt64(uids[rnd.Next(0, 6)]), Quantity = i });
                 context.Items.Add(new Item() { ItemTypeId = i, OwnerId = uids[rnd.Next(0, 6)], Price = i, QualityId = (long)rnd.Next(1, 5), Quantity = i });
             }
             

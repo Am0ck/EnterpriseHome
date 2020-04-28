@@ -88,6 +88,7 @@ namespace HomeEnterprise.Models
             {
                 Google.Apis.Drive.v3.DriveService service = GetService();
                 //string p = file.FileName;
+                string folderId = "1hq-lutCWdukMOua7Dv3GbI6nei8-jDV6";
                 string path = Path.Combine(HttpContext.Current.Server.MapPath("~/GoogleDriveFiles"),
                 Path.GetFileName(file.FileName));
                 file.SaveAs(path);
@@ -95,7 +96,8 @@ namespace HomeEnterprise.Models
                 var FileMetaData = new Google.Apis.Drive.v3.Data.File();
                 FileMetaData.Name = Path.GetFileName(file.FileName);
                 FileMetaData.MimeType = MimeMapping.GetMimeMapping(path);
-
+                //List fisdf =  new List<String>(folderId)
+                FileMetaData.Parents = new List<string> { folderId };
                 Google.Apis.Drive.v3.FilesResource.CreateMediaUpload request;
 
                 using (var stream = new System.IO.FileStream(path, System.IO.FileMode.Open))

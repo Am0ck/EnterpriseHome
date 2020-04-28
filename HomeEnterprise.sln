@@ -5,6 +5,11 @@ VisualStudioVersion = 15.0.28307.960
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeEnterprise", "HomeEnterprise\HomeEnterprise.csproj", "{6F9B73C7-126F-4822-967C-5B77714969A4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E0790211-6E95-4EB8-B0D2-AD510574A9C8}"
+	ProjectSection(SolutionItems) = preProject
+		..\Grant.sql = ..\Grant.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
