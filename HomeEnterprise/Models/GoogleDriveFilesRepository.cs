@@ -25,7 +25,8 @@ namespace HomeEnterprise.Models
             UserCredential credential;
             //var CSPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Content/");
             //using (var stream = new FileStream(Path.Combine(CSPath, "credentials.json"), FileMode.Open, FileAccess.Read))
-            using (var stream = new FileStream(Path.Combine("C:\\Users\\Andre\\Desktop\\HomeEnterprise\\HomeEnterprise", "credentials.json"), FileMode.Open, FileAccess.Read))
+            //using (var stream = new FileStream(Path.Combine("C:\\Users\\Andre\\Desktop\\HomeEnterprise\\HomeEnterprise", "credentials.json"), FileMode.Open, FileAccess.Read))
+            using (var stream = new FileStream(HttpContext.Current.Server.MapPath(@"~\credentials.json"), FileMode.Open, FileAccess.Read))
             {
                 String FolderPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Content/"); ;
                 String FilePath = Path.Combine(FolderPath, "DriveServiceCredentials.json");

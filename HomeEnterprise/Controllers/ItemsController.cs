@@ -185,20 +185,19 @@ namespace HomeEnterprise.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Quantity,Price,OwnerId,QualityId,ItemTypeId")] Item item)
         {
-            if (item.OwnerId == User.Identity.GetUserId())
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    db.Entry(item).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-                ViewBag.ItemTypeId = new SelectList(db.ItemTypes, "Id", "TypeName", item.ItemTypeId);
-                //ViewBag.OwnerId = new SelectList(db.Users, "Id", "Email", item.OwnerId);
-                ViewBag.QualityId = new SelectList(db.Qualities, "Id", "QualityName", item.QualityId);
-                return View(item);
+                item.OwnerId = User.Identity.GetUserId();
+                db.Entry(item).State = EntityState.Modified;
+                db.SaveChanges();
+                 return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+            ViewBag.ItemTypeId = new SelectList(db.ItemTypes, "Id", "TypeName", item.ItemTypeId);
+            //ViewBag.OwnerId = new SelectList(db.Users, "Id", "Email", item.OwnerId);
+            ViewBag.QualityId = new SelectList(db.Qualities, "Id", "QualityName", item.QualityId);
+            return View(item);
+            
+            //return RedirectToAction("Index");
         }
 
         // GET: Items/Delete/5
