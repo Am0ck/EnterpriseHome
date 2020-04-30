@@ -17,9 +17,13 @@
             </button>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav mr-auto">
-                    <li class="nav-item">@Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Items", "Index", "Items", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("ItemType", "Index", "ItemTypes", null, new { @class = "nav-link" })</li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">@Html.ActionLink("Category", "Index", "Categories", null, new { @class = "nav-link" })</li>
+                    }
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

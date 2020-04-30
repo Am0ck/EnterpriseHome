@@ -38,13 +38,27 @@ namespace HomeEnterprise.Controllers
             its.Reverse();
             return View(its);
             */
-            ViewBag.OwnerId = new SelectList(db.Users, "Id", "UserName");
-            var items = db.Items.Include(i => i.ItemType).Include(i => i.Owner).Include(i => i.Quality);
-            List<Item> its = new List<Item>();
-            its = items.ToList();
-            its.Reverse();
-
-            return View(its.ToPagedList(page ?? 1, 6));
+            if(Session["OwnerFilter"] != null)
+            {
+                string ownerFilter = Session["OwnerFilter"].ToString();
+                ViewBag.OwnerId = new SelectList(db.Users, "Id", "UserName");
+                var items = db.Items.Include(i => i.ItemType).Include(i => i.Owner).Include(i => i.Quality).Where(x => x.OwnerId == ownerFilter);
+                List<Item> its = new List<Item>();
+                its = items.ToList();
+                its.Reverse();
+                return View(its.ToPagedList(page ?? 1, 6));
+            }
+            else
+            {
+                ViewBag.OwnerId = new SelectList(db.Users, "Id", "UserName");
+                var items = db.Items.Include(i => i.ItemType).Include(i => i.Owner).Include(i => i.Quality);
+                List<Item> its = new List<Item>();
+                its = items.ToList();
+                its.Reverse();
+                //Session.Remove("OwnerFilter");
+                Session["OwnerFilter"] = null;
+                return View(its.ToPagedList(page ?? 1, 6));
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -52,7 +66,9 @@ namespace HomeEnterprise.Controllers
         {
             List<Item> its = new List<Item>();
             ViewBag.OwnerId = new SelectList(db.Users, "Id", "UserName");
-
+            ViewBag.fil = ownerId;
+            Session["OwnerFilter"] = ownerId;
+            //string sfd = Session["OwnerFilter"].ToString();
             var sellerId = (from c in db.Items
                             where c.OwnerId == ownerId
                             select c.OwnerId).FirstOrDefault();
