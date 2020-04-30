@@ -78,7 +78,7 @@ namespace HomeEnterprise.Models
             {
                 for(int i = 1; i <= 20; i++)
                 {
-                    context.ItemTypes.Add(new ItemType() { TypeName = "type" + i, Image = "13c-BpIZvgWH7yQB3CbdP0_q5pHzTalIC", CategoryId = c.Id });
+                    context.ItemTypes.Add(new ItemType() { TypeName = "type" + i + c.CategoryName, Image = "13c-BpIZvgWH7yQB3CbdP0_q5pHzTalIC", CategoryId = c.Id });
                 }
             }
             //Seed Qualities
